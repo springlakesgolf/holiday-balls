@@ -459,9 +459,9 @@ var CFG = {"programs": {"titleist": {"key": "titleist", "brand": "Titleist", "na
     if (state.personalize && !state.lines.some(function(x){ return x.trim(); })) return 'Please enter at least one line of text.';
     if (state.brand === 'taylormade' && !state.font) return 'Please choose a font.';
     if (state.brand === 'taylormade' && !state.colour) return 'Please choose an ink colour.';
-    if (!state.name) return 'Please enter your name.';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) return 'Please enter a valid email.';
-    if (!state.phone) return 'Please enter a phone number.';
+    if (state.name.length < 2) return 'Please enter your name.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(state.email)) return 'Please enter a valid email.';
+    if (state.phone.replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '').length < 10) return 'Please enter a phone number with area code.';
     if (!state.payment) return 'Please choose a payment option.';
     return '';
   }
