@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Holiday Ball Orders | Spring Lakes Golf Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Holiday palette: pine green, berry red, club gold. --navy is kept as the token name for the primary colour. */
+  --navy:#1E4A35; --navy-deep:#163827; --berry:#A3202A; --berry-deep:#85161F; --club-navy:#323C60;
+  --gold:#B89A2D; --gold-soft:#F5EEDA; --gold-line:#E0CC8A;
+  --ink:#1E3328; --muted:#66706A; --line:#E6E1D6; --bg:#FAF7F0; --card:#FFFFFF; --err:#B3261E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font-family:Montserrat,Arial,sans-serif;font-size:15px;line-height:1.55}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px;width:100%;flex:1}
+.preview-bar{background:var(--gold);color:var(--club-navy);text-align:center;font-size:12px;font-weight:600;letter-spacing:.06em;padding:7px 12px;text-transform:uppercase}
+
+/* Masthead */
+.mast{background:var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.10' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M30 18v24M19.6 24l20.8 12M19.6 36l20.8-12'/%3E%3Cpath d='M90 70v16M83 74l14 8M83 82l14-8'/%3E%3C/g%3E%3C/svg%3E");color:#fff;text-align:center;padding:34px 20px 34px;position:relative}
+.mast::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(var(--gold) 0 3px,var(--berry) 3px 8px)}
+.heron{width:86px;height:auto;color:#fff;display:block;margin:0 auto 12px}
+.club{font-family:Cinzel,serif;font-weight:600;letter-spacing:.22em;font-size:15px}
+.mast .sub{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-line);margin-top:6px;font-weight:600}
+
+/* Steps */
+.steps{display:flex;justify-content:center;gap:8px;margin:26px 0 6px;flex-wrap:wrap}
+.steps span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:6px 10px;border-bottom:2px solid transparent}
+.steps span.on{color:var(--navy);border-color:var(--gold)}
+.steps span.past{color:var(--gold)}
+
+.view{display:none;padding:22px 0 60px;animation:fade .35s ease}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;color:var(--navy);line-height:1.15}
+h1{font-size:44px;text-align:center}
+h2{font-size:32px;text-align:center}
+.lede{text-align:center;max-width:620px;margin:12px auto 0;color:var(--muted);font-size:16px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.rule{width:56px;height:2px;background:var(--gold);margin:16px auto 0}
+
+/* Program cards */
+.programs{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+.prog{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);padding:28px 26px 24px;display:flex;flex-direction:column}
+.prog h3{font-size:28px;margin:6px 0 4px}
+.prog .dates{font-size:13px;color:var(--muted);font-weight:500}
+.price{margin:18px 0 6px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.price b{font-family:"Cormorant Garamond",serif;font-size:40px;font-weight:700;color:var(--navy);line-height:1}
+.price small{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;background:var(--gold);color:var(--club-navy);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px}
+.tag.soft{background:var(--gold-soft);color:var(--club-navy)}
+.tag.red{background:var(--berry);color:#fff}
+.prog ul{list-style:none;margin:16px 0 0;border-top:1px solid var(--line)}
+.prog li{padding:9px 0 9px 20px;border-bottom:1px solid var(--line);font-size:14px;position:relative}
+.prog li::before{content:"";position:absolute;left:2px;top:16px;width:7px;height:7px;background:var(--gold);transform:rotate(45deg)}
+.prog.red{border-top-color:var(--berry)}
+.prog.red li::before{background:var(--berry)}
+.status{margin-top:16px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.status.open{color:#2E7D4F}.status.soon{color:var(--gold)}.status.closed{color:var(--err)}
+
+.cta{text-align:center;margin-top:36px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;cursor:pointer;background:var(--berry);color:#fff;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:13px;padding:16px 34px;transition:background .2s, transform .1s}
+.btn:hover{background:var(--berry-deep)}
+.btn:active{transform:translateY(1px)}
+.btn.gold{background:var(--gold);color:var(--club-navy)}
+.btn.gold:hover{background:#A8891F}
+.btn.ghost{background:transparent;color:var(--navy);border:1px solid var(--navy)}
+.btn.ghost:hover{background:#fff}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.fine{text-align:center;color:var(--muted);font-size:12px;margin-top:16px}
+
+/* Brand chooser */
+.brands{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:32px}
+.brand{background:var(--card);border:1px solid var(--line);padding:38px 26px;text-align:center;cursor:pointer;transition:border-color .2s, box-shadow .2s, transform .15s;position:relative}
+.brand:hover:not(.locked){border-color:var(--berry);box-shadow:0 10px 30px rgba(50,60,96,.10);transform:translateY(-2px)}
+.brand .wordmark{font-family:Montserrat,sans-serif;font-weight:700;font-size:30px;letter-spacing:.02em;color:var(--navy)}
+.brand .wordmark.ti{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:38px;font-weight:600}
+.brand p{color:var(--muted);font-size:14px;margin-top:8px}
+.brand .go{margin-top:20px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--berry)}
+.brand.locked{cursor:not-allowed;opacity:.6}
+.back{background:none;border:0;cursor:pointer;color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;display:inline-flex;align-items:center;gap:8px;padding:6px 0}
+.back:hover{color:var(--navy)}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:26px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);padding:26px}
+.panel + .panel{margin-top:20px}
+.panel h3{font-size:24px;margin-bottom:4px}
+.panel .hint{color:var(--muted);font-size:13px;margin-bottom:16px}
+.qty-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);gap:12px}
+.qty-row:last-child{border-bottom:0}
+.qty-row .m{font-weight:600}
+.stepper{display:flex;align-items:center;border:1px solid var(--line)}
+.stepper button{width:38px;height:38px;border:0;background:#fff;cursor:pointer;font-size:18px;color:var(--navy)}
+.stepper button:hover{background:var(--gold-soft)}
+.stepper input{width:46px;height:38px;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center;font-weight:600;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.total{display:flex;justify-content:space-between;margin-top:14px;font-weight:600;font-size:14px}
+label.f{display:block;margin-top:14px}
+label.f > span{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+label.f > span em{font-style:normal;text-transform:none;letter-spacing:0;color:var(--muted);font-weight:500}
+input.t,select.t,textarea.t{width:100%;border:1px solid #CFD3DE;background:#fff;padding:11px 12px;border-radius:0;outline:none;transition:border-color .15s, box-shadow .15s}
+input.t:focus,select.t:focus,textarea.t:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,154,45,.18)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid #CFD3DE;background:#fff;padding:9px 14px;cursor:pointer;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px}
+.chip:hover{border-color:var(--gold)}
+.chip.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.chip .sw{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.6)}
+.toggle{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;margin-top:4px}
+.toggle input{width:18px;height:18px;accent-color:var(--navy)}
+.err{color:var(--err);font-size:13px;margin-top:14px;min-height:1em;font-weight:500}
+
+/* Ball preview */
+.ballbox{position:sticky;top:16px}
+.ballwrap{background:radial-gradient(circle at 50% 40%,#2C6149 0%,var(--navy) 70%);padding:30px 20px 22px;text-align:center}
+.ballwrap svg{width:100%;max-width:240px;height:auto;display:block;margin:0 auto}
+.ballwrap .cap{color:var(--gold-line);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:14px;font-weight:600}
+.sum{padding:20px 22px;background:#fff;border:1px solid var(--line);border-top:0;font-size:14px}
+.sum div{display:flex;justify-content:space-between;padding:5px 0}
+.sum div span:first-child{color:var(--muted)}
+.sum .big{font-weight:700;font-size:16px;border-top:1px solid var(--line);margin-top:8px;padding-top:10px}
+
+/* Review */
+.review{max-width:640px;margin:26px auto 0}
+.review dl{display:grid;grid-template-columns:150px 1fr;gap:10px 18px;font-size:14px}
+.review dt{color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+.review dd{font-weight:500}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:26px;flex-wrap:wrap}
+
+/* Done */
+.done{max-width:560px;margin:30px auto 0;text-align:center;background:#fff;border:1px solid var(--line);border-top:4px solid var(--berry);padding:42px 30px}
+.done .num{font-family:Cinzel,serif;font-size:28px;letter-spacing:.12em;color:var(--navy);margin:14px 0 6px}
+.done p{color:var(--muted);margin-top:10px}
+.check{width:54px;height:54px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;margin:0 auto}
+
+footer{border-top:4px solid var(--berry);background:var(--navy);color:#C9CCDA;text-align:center;font-size:12px;padding:22px 20px;letter-spacing:.04em}
+footer b{font-family:Cinzel,serif;color:#fff;letter-spacing:.18em;font-weight:600}
+
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+@media (max-width:760px){
+  h1{font-size:34px} h2{font-size:28px}
+  .programs,.brands,.form-grid{grid-template-columns:1fr}
+  .ballbox{position:static;order:-1}
+  .row2{grid-template-columns:1fr}
+  .review dl{grid-template-columns:1fr;gap:2px}
+  .review dd{margin-bottom:10px}
+  .wrap{padding:0 16px}
+  .btn{width:100%}
+  .actions{flex-direction:column-reverse;align-items:stretch}
+}
+</style>
+</head>
+<body>
+<div id="previewBar" class="preview-bar" hidden>Preview only. Orders are not saved from this page.</div>
+
+<header class="mast">
+  <svg class="heron" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="107.5 136.0 72.6 44.2"><path fill-rule="evenodd" fill="currentColor" d="M 151.93 139.08 C 152.12 139.25 152.28 139.44 152.41 139.66 C 152.59 139.95 152.69 140.28 152.79 140.60 C 152.91 141.02 152.96 141.44 153.05 141.87 C 153.39 142.06 153.73 142.27 154.07 142.46 C 154.40 142.64 154.73 142.80 155.06 142.97 C 155.28 143.08 155.50 143.23 155.75 143.30 C 155.94 143.35 156.16 143.35 156.36 143.34 C 156.49 143.34 156.64 143.33 156.74 143.25 C 156.94 143.08 157.11 142.87 157.20 142.63 C 157.30 142.35 157.21 142.04 157.28 141.76 C 157.33 141.51 157.44 141.29 157.56 141.07 C 157.71 140.79 157.84 140.50 158.05 140.26 C 158.33 139.97 158.68 139.75 159.01 139.50 C 159.25 139.32 159.49 139.14 159.74 138.97 C 159.14 139.06 158.27 139.23 157.78 139.29 C 157.25 139.36 156.75 139.53 156.21 139.55 C 155.20 139.59 154.17 139.63 153.17 139.48 C 152.74 139.41 152.33 139.25 151.93 139.08 M 123.97 145.45 C 123.66 145.48 123.34 145.52 123.03 145.54 C 122.84 145.55 122.66 145.59 122.47 145.58 C 122.41 145.58 122.37 145.53 122.33 145.51 C 122.33 145.51 122.38 145.30 122.40 145.35 C 122.41 145.39 122.04 145.47 122.04 145.47 C 121.95 145.47 121.84 145.50 121.76 145.47 C 121.72 145.46 121.73 145.39 121.76 145.37 C 122.21 145.02 122.69 144.71 123.16 144.38 C 123.75 143.96 124.34 143.53 124.94 143.11 C 124.5 143.30 124.06 143.51 123.60 143.67 C 123.56 143.68 123.45 143.66 123.48 143.63 C 123.68 143.42 123.93 143.26 124.16 143.08 C 123.67 143.21 123.19 143.37 122.69 143.48 C 122.65 143.49 122.53 143.46 122.57 143.43 C 122.84 143.23 123.17 143.08 123.47 142.92 C 123.13 142.91 122.79 142.93 122.45 142.90 C 122.17 142.88 121.88 142.83 121.61 142.76 C 121.38 142.70 121.17 142.60 120.97 142.49 C 120.93 142.47 121.05 142.46 121.09 142.48 C 121.32 142.52 121.54 142.60 121.76 142.66 C 121.50 142.53 121.21 142.44 120.97 142.28 C 120.80 142.17 120.64 142.02 120.52 141.86 C 120.50 141.83 120.58 141.79 120.62 141.80 C 120.80 141.87 120.95 142.02 121.14 142.08 C 121.38 142.17 121.64 142.23 121.90 142.25 C 122.10 142.26 122.29 142.19 122.48 142.16 C 122.19 142.13 121.90 142.12 121.61 142.06 C 121.58 142.06 121.58 141.98 121.62 141.98 C 122.07 141.92 122.54 141.95 123 141.89 C 123.28 141.85 123.55 141.76 123.82 141.68 C 124.22 141.57 124.62 141.44 125.01 141.32 C 124.57 141.35 124.13 141.41 123.69 141.40 C 123.56 141.40 123.43 141.35 123.32 141.28 C 123.27 141.26 123.22 141.19 123.23 141.14 C 123.23 141.10 123.29 141.08 123.33 141.08 C 123.47 141.05 123.62 141.05 123.76 141.04 C 124.02 141.01 124.28 140.98 124.55 140.95 C 124.94 140.91 125.35 140.88 125.75 140.82 C 126.42 140.72 127.09 140.60 127.76 140.48 C 128.53 140.34 129.30 140.23 130.05 140.03 C 130.68 139.87 131.27 139.61 131.88 139.41 C 132.52 139.19 133.16 138.97 133.80 138.78 C 134.58 138.57 135.37 138.40 136.16 138.23 C 136.99 138.04 137.82 137.87 138.66 137.71 C 139.72 137.51 140.78 137.29 141.85 137.14 C 142.55 137.04 143.25 136.99 143.96 136.97 C 144.54 136.95 145.13 136.96 145.71 137.01 C 146.28 137.07 146.85 137.17 147.41 137.29 C 147.92 137.40 148.42 137.53 148.91 137.71 C 149.21 137.82 149.5 137.98 149.76 138.15 C 149.92 138.25 150.04 138.41 150.17 138.54 C 150.46 138.56 150.75 138.54 151.03 138.61 C 151.27 138.68 151.51 138.77 151.71 138.91 C 152.21 139.03 152.70 139.16 153.21 139.20 C 154.16 139.28 155.12 139.25 156.07 139.20 C 156.61 139.17 157.14 139.05 157.68 138.95 C 158.33 138.83 158.98 138.62 159.64 138.56 C 159.95 138.53 160.22 138.53 160.47 138.54 C 160.80 138.36 161.14 138.19 161.49 138.07 C 162.15 137.85 162.83 137.67 163.53 137.60 C 164.05 137.55 164.57 137.66 165.08 137.73 C 165.58 137.80 166.07 137.89 166.56 138.01 C 167.09 138.14 167.61 138.32 168.14 138.48 C 168.50 138.58 168.87 138.67 169.24 138.78 C 169.55 138.88 169.83 139.03 170.15 139.11 C 170.61 139.23 171.08 139.30 171.56 139.38 C 172.5 139.53 173.45 139.60 174.37 139.81 C 175.14 139.99 176.25 140.18 177.00 140.41 C 177.58 140.58 177.95 140.67 178.54 140.84 C 179.10 141.01 178.53 141.06 178.47 141.07 C 178.10 141.12 177.73 141.10 177.37 141.10 C 174.59 141.08 172.22 140.76 169.34 140.93 C 168.75 140.97 168.17 141.15 167.58 141.23 C 167.11 141.29 166.64 141.33 166.16 141.37 C 165.70 141.41 165.25 141.43 164.78 141.46 C 164.46 141.48 164.13 141.47 163.81 141.51 C 163.55 141.53 163.29 141.59 163.04 141.65 C 162.76 141.71 162.47 141.75 162.21 141.87 C 161.94 142 161.71 142.19 161.49 142.39 C 160.91 142.92 161.29 143.02 161.36 143.42 C 161.40 143.63 161.40 143.85 161.36 144.06 C 161.10 145.5 160.82 145.78 159.42 146.21 C 158.34 146.53 157.57 146.69 156.44 146.55 C 155.66 146.45 154.89 146.32 154.10 146.21 C 154.33 146.79 154.61 147.36 154.80 147.96 C 155.13 149.02 155.42 150.09 155.67 151.17 C 156.00 152.62 156.26 154.09 156.52 155.55 C 156.67 156.37 156.79 157.18 156.90 158 C 157.01 158.78 157.10 159.56 157.16 160.35 C 157.19 160.62 157.28 160.91 157.18 161.17 C 157.14 161.28 156.95 161.27 156.83 161.25 C 156.64 161.21 156.46 161.10 156.29 160.98 C 156.11 160.85 155.92 160.72 155.82 160.53 C 155.57 160.07 155.43 159.56 155.24 159.07 C 155.32 160.10 155.48 161.14 155.49 162.18 C 155.49 162.31 155.37 162.43 155.26 162.49 C 155.15 162.55 155.00 162.55 154.90 162.49 C 154.64 162.35 154.37 162.18 154.24 161.93 C 153.76 161.09 153.47 160.17 153.08 159.29 C 153.08 160.08 153.16 160.88 153.08 161.67 C 153.07 161.89 152.93 162.10 152.79 162.29 C 152.73 162.37 152.61 162.46 152.51 162.43 C 152.28 162.36 152.12 162.17 151.92 162.04 C 152.01 162.93 152.10 163.82 152.20 164.72 C 152.34 166.07 152.52 167.43 152.64 168.79 C 152.73 169.76 152.80 170.73 152.84 171.70 C 152.89 172.91 152.94 174.13 152.92 175.34 C 152.91 175.82 152.85 176.30 152.76 176.77 C 152.69 177.13 152.61 177.49 152.44 177.82 C 152.41 177.89 152.27 177.91 152.18 177.89 C 152.06 177.87 151.94 177.79 151.87 177.69 C 151.72 177.49 151.60 177.26 151.54 177.02 C 151.27 176.08 151.09 175.11 150.87 174.16 C 150.83 175.49 150.85 176.83 150.76 178.16 C 150.75 178.43 150.67 178.71 150.55 178.97 C 150.50 179.08 150.35 179.12 150.26 179.20 C 150.11 179.14 149.92 179.12 149.81 179.01 C 149.55 178.75 149.30 178.46 149.17 178.12 C 148.98 177.64 148.98 177.10 148.89 176.58 C 148.80 176.06 148.71 175.54 148.63 175.01 C 148.47 175.97 148.38 176.94 148.17 177.89 C 148.10 178.21 147.97 178.53 147.77 178.79 C 147.71 178.87 147.57 178.87 147.48 178.83 C 147.28 178.72 147.12 178.56 147.00 178.39 C 146.74 178.02 146.49 177.63 146.34 177.21 C 146.19 176.79 146.14 176.34 146.11 175.90 C 146.08 175.51 146.16 175.12 146.19 174.73 C 145.91 175.50 145.67 176.28 145.35 177.04 C 145.26 177.26 145.15 177.50 144.98 177.67 C 144.88 177.77 144.72 177.82 144.58 177.82 C 144.43 177.81 144.28 177.74 144.17 177.64 C 144.03 177.52 143.93 177.35 143.86 177.18 C 143.75 176.95 143.65 176.71 143.62 176.46 C 143.57 175.94 143.62 175.41 143.61 174.89 C 143.36 175.24 143.15 175.62 142.85 175.95 C 142.74 176.07 142.57 176.16 142.41 176.21 C 142.28 176.26 142.11 176.31 142.00 176.25 C 141.73 176.08 141.55 175.82 141.37 175.57 C 141.21 175.35 141.04 175.11 140.99 174.84 C 140.89 174.30 140.95 173.73 140.93 173.18 C 140.74 173.30 140.57 173.46 140.35 173.55 C 140.19 173.62 140.01 173.69 139.84 173.64 C 139.70 173.60 139.64 173.45 139.55 173.33 C 139.32 173.04 139.10 172.75 138.91 172.43 C 138.76 172.20 138.62 171.96 138.53 171.70 C 138.47 171.54 138.46 171.37 138.46 171.20 C 138.46 171.10 138.50 171 138.53 170.89 C 138.33 170.90 138.14 170.97 137.95 170.92 C 137.74 170.87 137.55 170.76 137.39 170.61 C 137.14 170.38 136.94 170.10 136.75 169.82 C 136.61 169.61 136.47 169.39 136.41 169.15 C 136.36 169 136.41 168.83 136.42 168.67 C 136.43 168.54 136.44 168.42 136.45 168.30 C 136.22 168.16 135.96 168.06 135.76 167.89 C 135.53 167.69 135.33 167.47 135.17 167.22 C 135.03 167.01 134.91 166.78 134.86 166.54 C 134.82 166.35 134.89 166.15 134.91 165.96 C 134.92 165.80 134.93 165.64 134.94 165.48 C 134.76 165.23 134.54 165.01 134.40 164.75 C 134.25 164.46 134.12 164.16 134.07 163.85 C 134.03 163.58 134.08 163.31 134.14 163.05 C 134.17 162.89 134.26 162.75 134.33 162.60 C 134.08 162.37 133.78 162.19 133.57 161.92 C 133.40 161.69 133.29 161.41 133.23 161.14 C 133.18 160.92 133.20 160.70 133.25 160.48 C 133.28 160.30 133.40 160.13 133.48 159.96 C 133.29 159.87 133.08 159.82 132.92 159.69 C 132.76 159.57 132.64 159.41 132.54 159.24 C 132.45 159.10 132.42 158.93 132.35 158.77 C 132.23 158.69 132.09 158.60 131.96 158.51 C 131.80 158.39 131.64 158.26 131.50 158.12 C 131.33 157.94 131.14 157.78 131.04 157.56 C 130.92 157.30 130.91 157.01 130.84 156.74 C 130.69 156.60 130.52 156.48 130.40 156.32 C 130.25 156.10 130.13 155.87 130.04 155.63 C 130.00 155.53 130.02 155.42 130.02 155.32 C 130.03 155.13 130.05 154.95 130.07 154.76 C 129.89 154.62 129.67 154.51 129.53 154.34 C 129.39 154.17 129.30 153.96 129.25 153.75 C 129.19 153.53 129.24 153.30 129.23 153.08 C 129.01 152.93 128.76 152.83 128.57 152.64 C 128.40 152.48 128.28 152.26 128.16 152.05 C 128.09 151.94 128.03 151.81 128.01 151.68 C 127.98 151.47 128.01 151.26 128.01 151.04 C 127.90 150.90 127.78 150.76 127.67 150.61 C 127.51 150.39 127.34 150.18 127.24 149.94 C 127.19 149.82 127.23 149.68 127.24 149.55 C 127.26 149.41 127.30 149.27 127.34 149.13 C 127.24 149 127.12 148.87 127.05 148.73 C 126.94 148.53 126.85 148.33 126.80 148.12 C 126.75 147.94 126.72 147.75 126.75 147.56 C 126.76 147.46 126.87 147.38 126.93 147.30 C 126.82 147.17 126.71 147.04 126.60 146.91 C 126.52 146.81 126.42 146.73 126.35 146.63 C 126.20 146.59 126.06 146.55 125.94 146.55 C 125.48 146.57 125.03 146.59 124.58 146.68 C 123.80 146.83 123.04 147.07 122.27 147.27 C 121.48 147.48 120.67 147.62 119.91 147.89 C 119.30 148.10 118.77 148.45 118.17 148.69 C 117.85 148.82 117.51 148.91 117.17 148.99 C 116.84 149.07 116.48 149.05 116.16 149.17 C 115.83 149.30 115.58 149.55 115.27 149.71 C 115.13 149.78 114.97 149.82 114.82 149.82 C 114.73 149.83 114.67 149.74 114.59 149.72 C 114.46 149.70 114.32 149.69 114.18 149.71 C 114.07 149.72 113.97 149.77 113.86 149.79 C 113.79 149.80 113.72 149.78 113.65 149.79 C 113.53 149.79 113.41 149.77 113.29 149.81 C 113.17 149.85 113.09 149.94 112.98 150 C 112.89 150.04 112.78 150.10 112.67 150.09 C 112.55 150.08 112.46 149.96 112.35 149.94 C 112.16 149.90 111.96 149.87 111.77 149.90 C 111.54 149.94 111.33 150.08 111.11 150.16 C 110.96 150.21 110.81 150.24 110.66 150.26 C 110.59 150.26 110.53 150.22 110.47 150.23 C 110.36 150.23 110.25 150.29 110.14 150.29 C 110.06 150.29 109.99 150.26 109.92 150.25 C 110.07 150.20 110.22 150.19 110.36 150.12 C 110.42 150.09 110.43 150.01 110.48 149.96 C 110.56 149.88 110.66 149.81 110.75 149.73 C 110.42 149.73 110.09 149.74 109.76 149.71 C 109.58 149.71 109.41 149.68 109.25 149.64 C 109.18 149.62 109.13 149.57 109.07 149.54 C 108.92 149.47 108.77 149.44 108.64 149.36 C 108.58 149.33 108.57 149.26 108.53 149.21 C 108.66 149.25 108.80 149.28 108.93 149.31 C 109.01 149.33 109.10 149.37 109.16 149.33 C 109.24 149.30 109.23 149.16 109.30 149.12 C 109.43 149.05 109.59 149.03 109.74 149.01 C 109.93 148.99 110.12 149.01 110.32 149.00 C 110.54 149 110.76 149.01 110.98 148.98 C 111.08 148.96 111.16 148.89 111.26 148.88 C 111.49 148.83 111.72 148.83 111.95 148.80 C 111.67 148.73 111.39 148.66 111.11 148.60 C 110.93 148.56 110.75 148.57 110.58 148.51 C 110.47 148.48 110.35 148.42 110.28 148.33 C 110.18 148.22 110.14 148.06 110.07 147.92 C 110.11 147.97 110.14 148.03 110.19 148.06 C 110.28 148.12 110.40 148.18 110.51 148.16 C 110.59 148.14 110.58 148.00 110.65 147.97 C 110.76 147.91 110.90 147.90 111.03 147.91 C 111.16 147.91 111.29 147.98 111.43 148.01 C 111.64 148.05 111.84 148.07 112.05 148.09 C 112.51 148.14 112.96 148.21 113.42 148.22 C 113.71 148.22 114.00 148.14 114.29 148.10 C 114.06 148.00 113.84 147.89 113.60 147.80 C 113.37 147.73 113.12 147.66 112.87 147.61 C 112.72 147.58 112.55 147.62 112.41 147.57 C 112.32 147.53 112.26 147.44 112.21 147.35 C 112.18 147.32 112.21 147.24 112.17 147.21 C 112.11 147.18 112.03 147.19 111.95 147.20 C 111.83 147.22 111.70 147.24 111.58 147.30 C 111.47 147.35 111.40 147.55 111.29 147.51 C 111.18 147.47 111.25 147.28 111.30 147.18 C 111.34 147.07 111.44 146.99 111.54 146.93 C 111.69 146.83 111.85 146.73 112.02 146.71 C 112.21 146.69 112.40 146.76 112.58 146.80 C 112.91 146.86 113.22 146.93 113.54 147.01 C 113.90 147.11 114.25 147.25 114.62 147.32 C 114.94 147.39 115.27 147.42 115.60 147.44 C 115.90 147.46 116.21 147.44 116.51 147.45 C 116.83 147.46 117.15 147.46 117.47 147.47 C 118.13 147.31 118.80 147.17 119.46 146.98 C 119.98 146.83 120.50 146.64 121.01 146.47 C 121.72 146.23 122.43 146.01 123.13 145.76 C 123.41 145.66 123.69 145.55 123.97 145.45 "/></svg>
+  <div class="club">SPRING LAKES GOLF CLUB</div>
+  <div class="sub">Pro Shop</div>
+</header>
+
+<main class="wrap">
+  <nav class="steps" id="steps" aria-label="Order progress">
+    <span data-s="1">Programs</span><span data-s="2">Brand</span><span data-s="3">Details</span><span data-s="4">Review</span>
+  </nav>
+
+  <!-- 1. Landing -->
+  <section class="view" id="v-landing">
+    <div style="text-align:center;margin-top:14px"><div class="eyebrow">Holiday 2026</div></div>
+    <h1 style="margin-top:8px">The Holiday Ball Program</h1>
+    <div class="rule"></div>
+    <p class="lede">Two limited time offers for the golfer on your list. Choose a program, tell us what you would like, and our team will have it ready for you to pick up.</p>
+    <div class="programs" id="programCards"></div>
+    <div class="cta">
+      <button class="btn gold" id="startBtn">Start Your Order
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <p class="fine">Prices are per dozen, before HST. Every order is confirmed by our team before it is placed.</p>
+    </div>
+  </section>
+
+  <!-- 2. Brand -->
+  <section class="view" id="v-brand">
+    <button class="back" data-go="landing">&#8592; Back</button>
+    <h2 style="margin-top:6px">Choose Your Ball</h2>
+    <div class="rule"></div>
+    <div class="brands" id="brandTiles"></div>
+  </section>
+
+  <!-- 3. Details -->
+  <section class="view" id="v-details">
+    <button class="back" data-go="brand">&#8592; Back</button>
+    <h2 style="margin-top:6px" id="detailsTitle"></h2>
+    <div class="rule"></div>
+    <form id="orderForm" class="form-grid" novalidate>
+    <input type="text" id="hpWebsite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div>
+        <div class="panel">
+          <h3>Your Balls</h3>
+          <p class="hint" id="qtyHint"></p>
+          <div id="qtyRows"></div>
+          <div class="total"><span>Total</span><span id="qtyTotal">0 dozen</span></div>
+        </div>
+
+        <div class="panel" id="persPanel">
+          <h3>Personalization</h3>
+          <p class="hint" id="persHint"></p>
+          <label class="toggle" id="persToggleWrap"><input type="checkbox" id="persToggle"> Add personalization</label>
+          <div id="persFields">
+            <label class="f"><span>Line 1</span><input class="t" maxlength="30" data-line="0" placeholder="e.g. Merry Christmas Dad"></label>
+            <label class="f"><span>Line 2 <em>(optional)</em></span><input class="t" maxlength="30" data-line="1"></label>
+            <label class="f"><span>Line 3 <em>(optional)</em></span><input class="t" maxlength="30" data-line="2"></label>
+            <div id="tmOptions">
+              <label class="f"><span>Font</span></label>
+              <div class="chips" id="fontChips"></div>
+              <label class="f"><span>Ink Colour</span></label>
+              <div class="chips" id="colourChips"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Your Details</h3>
+          <div class="row2">
+            <label class="f"><span>Full Name</span><input class="t" name="name" autocomplete="name" required></label>
+            <label class="f"><span>Member # <em>(if known)</em></span><input class="t" name="member" inputmode="numeric"></label>
+          </div>
+          <div class="row2">
+            <label class="f"><span>Email</span><input class="t" name="email" type="email" autocomplete="email" required></label>
+            <label class="f"><span>Phone</span><input class="t" name="phone" type="tel" autocomplete="tel" required></label>
+          </div>
+          <label class="f"><span>Payment</span></label>
+          <div class="chips" id="payChips"></div>
+          <label class="f"><span>Notes <em>(optional)</em></span><textarea class="t" name="notes" rows="3" maxlength="500" placeholder="Anything our team should know"></textarea></label>
+        </div>
+        <div class="err" id="formErr" role="alert"></div>
+        <div class="actions">
+          <button type="button" class="btn ghost" data-go="brand">Back</button>
+          <button type="submit" class="btn">Review Order</button>
+        </div>
+      </div>
+
+      <aside class="ballbox">
+        <div class="ballwrap">
+          <svg viewBox="0 0 240 240" id="ballSvg" role="img" aria-label="Ball preview">
+            <defs>
+              <radialGradient id="bg1" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".65" stop-color="#F1F2F5"/><stop offset="1" stop-color="#C9CCD6"/></radialGradient>
+              <pattern id="dimp" width="13" height="11.3" patternUnits="userSpaceOnUse"><circle cx="3.2" cy="2.8" r="2.4" fill="#000" opacity=".045"/><circle cx="9.7" cy="8.5" r="2.4" fill="#000" opacity=".045"/></pattern>
+              <clipPath id="bc"><circle cx="120" cy="120" r="104"/></clipPath>
+            </defs>
+            <ellipse cx="120" cy="230" rx="70" ry="7" fill="#000" opacity=".25"/>
+            <circle cx="120" cy="120" r="104" fill="url(#bg1)"/>
+            <rect x="0" y="0" width="240" height="240" fill="url(#dimp)" clip-path="url(#bc)"/>
+            <g id="ballText" text-anchor="middle"></g>
+          </svg>
+          <div class="cap" id="ballCap">Preview</div>
+        </div>
+        <div class="sum" id="sumBox"></div>
+      </aside>
+    </form>
+  </section>
+
+  <!-- 4. Review -->
+  <section class="view" id="v-review">
+    <button class="back" data-go="details">&#8592; Edit Order</button>
+    <h2 style="margin-top:6px">Review Your Order</h2>
+    <div class="rule"></div>
+    <div class="review panel">
+      <dl id="reviewList"></dl>
+      <div class="err" id="submitErr" role="alert"></div>
+      <div class="actions">
+        <button type="button" class="btn ghost" data-go="details">Edit</button>
+        <button type="button" class="btn gold" id="submitBtn">Submit Order</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Done -->
+  <section class="view" id="v-done">
+    <div class="done">
+      <div class="check"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6 13.5l4.5 4.5L20 8" fill="none" stroke="#1E4A35" stroke-width="2.4"/></svg></div>
+      <h2 style="margin-top:16px">Thank You</h2>
+      <div class="num" id="doneNum"></div>
+      <p id="doneMsg"></p>
+      <div style="margin-top:26px"><button class="btn ghost" id="againBtn">Place Another Order</button></div>
+    </div>
+  </section>
+</main>
+
+<footer><b>SPRING LAKES GOLF CLUB</b><div style="margin-top:6px">4962 Stouffville Road, Stouffville ON &middot; 905-640-3633</div></footer>
+
+<script>
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbwshb9IhuAC-8B8MJMMrg4UmNBuCZOqdXHimfdUpXOHHlSE-z847PLwFHwDI04wVccM/exec";
+var CFG = {"programs": {"titleist": {"key": "titleist", "brand": "Titleist", "name": "Pro V1 Holiday Sale", "tab": "Titleist Orders", "prefix": "TI", "opens": "2026-11-10", "closes": "2027-01-03", "pricePerDozen": 64.99, "minDozen": 1, "pickup": "the main office", "models": ["Pro V1", "Pro V1 Yellow", "Pro V1x", "Pro V1x Yellow", "Pro V1x Left Dash"], "personalization": "none"}, "taylormade": {"key": "taylormade", "brand": "TaylorMade", "name": "Free Holiday Personalization", "tab": "TaylorMade Orders", "prefix": "TM", "opens": "2026-11-01", "closes": "2026-12-15", "pricePerDozen": null, "minDozen": 2, "models": ["TP5", "TP5x"], "pickup": "the Pro Shop", "personalization": "required", "maxLines": 3, "fonts": ["Brush Script", "Times Bold", "Helvetica Bold"], "colours": ["Black", "Process Blue", "Reflex Blue", "Green 347", "Red 186"]}}, "payment": ["Pay at pickup"], "today": null, "preview": false};
+(function(){
+  var P = CFG.programs, TODAY = CFG.today || isoToday();
+  var COLOUR_HEX = {'Black':'#111111','Process Blue':'#0085CA','Reflex Blue':'#001489','Green 347':'#009A44','Red 186':'#C8102E'};
+  var FONT_CSS = {
+    'Brush Script':{f:"'Brush Script MT','Yellowtail',cursive",w:400,s:1.15},
+    'Times Bold':{f:"'Times New Roman',Times,serif",w:700,s:1},
+    'Helvetica Bold':{f:"Helvetica,Arial,sans-serif",w:700,s:.92}
+  };
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var state = fresh();
+  function fresh(){ return {brand:null, qty:{}, personalize:false, lines:['','',''], font:'', colour:'', payment:'', name:'', member:'', email:'', phone:'', notes:''}; }
+
+  function isoToday(){
+    try{ return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); }
+    catch(e){ return new Date().toISOString().slice(0,10); }
+  }
+  function nice(iso, withYear){ var p = iso.split('-'); return MONTHS[+p[1]-1] + ' ' + (+p[2]) + (withYear ? ', ' + p[0] : ''); }
+  function shortRange(p){ return nice(p.opens) + ' to ' + nice(p.closes, true); }
+  function status(p){ if (TODAY < p.opens) return 'soon'; if (TODAY > p.closes) return 'closed'; return 'open'; }
+  function canOrder(p){ return status(p) === 'open' || CFG.preview; }
+  function money(n){ return '$' + n.toFixed(2); }
+  function $(id){ return document.getElementById(id); }
+  function el(tag, attrs, html){ var e = document.createElement(tag); for (var k in (attrs||{})) e.setAttribute(k, attrs[k]); if (html !== undefined) e.innerHTML = html; return e; }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  /* ---------- Landing ---------- */
+  function statusLine(p){
+    var s = status(p);
+    if (s === 'open') return '<div class="status open">Now taking orders until ' + nice(p.closes) + '</div>';
+    if (s === 'soon') return '<div class="status soon">Orders open ' + nice(p.opens) + '</div>';
+    return '<div class="status closed">This program has ended</div>';
+  }
+  function renderPrograms(){
+    var t = P.titleist, m = P.taylormade;
+    $('programCards').innerHTML =
+      '<article class="prog red">' +
+        '<div class="eyebrow">Titleist</div><h3>' + t.name + '</h3><div class="dates">' + shortRange(t) + '</div>' +
+        '<div class="price"><b>' + money(t.pricePerDozen) + '</b><small>per dozen</small><span class="tag red">Holiday Sale</span></div>' +
+        '<ul><li>Pro V1, Pro V1x and Pro V1x Left Dash</li><li>Pro V1 and Pro V1x also in yellow</li><li>Tell us how many dozen you would like</li><li>We pull your order from inventory and leave it at ' + t.pickup + ' for you to pick up</li></ul>' +
+        statusLine(t) +
+      '</article>' +
+      '<article class="prog">' +
+        '<div class="eyebrow">TaylorMade</div><h3>' + m.name + '</h3><div class="dates">' + shortRange(m) + '</div>' +
+        '<div class="price">' + (m.pricePerDozen ? '<b>' + money(m.pricePerDozen) + '</b><small>per dozen</small>' : '<b style="font-size:30px">Personalized Free</b>') + '<span class="tag">No charge for text</span></div>' +
+        '<ul><li>White TP5 and TP5x</li><li>1 to 3 lines of text</li><li>Brush Script, Times Bold or Helvetica Bold</li><li>Black, Process Blue, Reflex Blue, Green or Red ink</li><li>2 dozen minimum per order</li></ul>' +
+        statusLine(m) +
+      '</article>';
+  }
+
+  /* ---------- Brand ---------- */
+  function renderBrands(){
+    var box = $('brandTiles'); box.innerHTML = '';
+    ['titleist','taylormade'].forEach(function(k){
+      var p = P[k], ok = canOrder(p), s = status(p);
+      var tile = el('button', {type:'button', 'class':'brand' + (ok ? '' : ' locked'), 'aria-disabled': ok ? 'false' : 'true'});
+      tile.innerHTML =
+        '<div class="wordmark' + (k === 'titleist' ? ' ti' : '') + '">' + p.brand + '</div>' +
+        '<p>' + (k === 'titleist' ? 'Holiday sale on the Pro V1 family, ' + money(p.pricePerDozen) + ' per dozen' : 'TP5 and TP5x with free personalization') + '</p>' +
+        '<p style="font-size:12px">' + shortRange(p) + '</p>' +
+        '<div class="go">' + (ok ? 'Select' : (s === 'soon' ? 'Opens ' + nice(p.opens) : 'Closed')) + '</div>';
+      tile.onclick = function(){ if (!ok) return; choose(k); };
+      box.appendChild(tile);
+    });
+  }
+  function choose(k){
+    if (state.brand !== k){ var keep = {name:state.name, member:state.member, email:state.email, phone:state.phone, payment:state.payment}; state = fresh(); for (var x in keep) state[x] = keep[x]; }
+    state.brand = k;
+    if (k === 'taylormade') state.personalize = true;
+    renderDetails(); go('details');
+  }
+
+  /* ---------- Details ---------- */
+  function renderDetails(){
+    var p = P[state.brand], tm = state.brand === 'taylormade';
+    $('detailsTitle').textContent = p.brand + ' ' + p.name;
+    $('qtyHint').textContent = tm ? 'Choose how many dozen of each. Minimum ' + p.minDozen + ' dozen per order, white balls only.' : 'Holiday sale, ' + money(p.pricePerDozen) + ' per dozen. Choose how many dozen of each model and we will pull your order from inventory and leave it at ' + p.pickup + ' for you to pick up.';
+    $('persPanel').style.display = p.personalization === 'none' ? 'none' : '';
+    var rows = $('qtyRows'); rows.innerHTML = '';
+    p.models.forEach(function(m){
+      var r = el('div', {'class':'qty-row'});
+      r.innerHTML = '<span class="m">' + m + '</span><span class="stepper"><button type="button" aria-label="Fewer ' + m + '">&minus;</button><input type="number" min="0" max="100" inputmode="numeric" aria-label="' + m + ' dozens" value="' + (state.qty[m]||0) + '"><button type="button" aria-label="More ' + m + '">+</button></span>';
+      var inp = r.querySelector('input'), b = r.querySelectorAll('button');
+      function set(v){ v = Math.max(0, Math.min(100, parseInt(v,10)||0)); state.qty[m] = v; inp.value = v; update(); }
+      b[0].onclick = function(){ set((state.qty[m]||0) - 1); };
+      b[1].onclick = function(){ set((state.qty[m]||0) + 1); };
+      inp.oninput = function(){ set(inp.value); };
+      rows.appendChild(r);
+    });
+    // Personalization
+    $('persHint').textContent = tm ? 'Free this season. Text only, up to 3 lines, printed on every ball in the order.' : 'Optional. Up to 3 lines of text. Our team will confirm any personalization charge before your order is placed.';
+    $('persToggleWrap').style.display = tm ? 'none' : '';
+    $('persToggle').checked = state.personalize;
+    $('tmOptions').style.display = tm ? '' : 'none';
+    document.querySelectorAll('[data-line]').forEach(function(i){ i.value = state.lines[+i.dataset.line]; });
+    if (tm){
+      chips('fontChips', p.fonts, 'font', function(v){ var f = FONT_CSS[v]; return '<span style="font-family:' + f.f + ';font-weight:' + f.w + ';font-size:15px">' + v + '</span>'; });
+      chips('colourChips', p.colours, 'colour', function(v){ return '<span class="sw" style="background:' + COLOUR_HEX[v] + '"></span>' + v; });
+    }
+    if (CFG.payment.length === 1){ state.payment = CFG.payment[0]; $('payChips').innerHTML = '<p style="font-size:14px">Payment is taken when you pick up your order.</p>'; }
+    else chips('payChips', CFG.payment, 'payment', function(v){ return v; });
+    var f = $('orderForm');
+    ['name','member','email','phone','notes'].forEach(function(n){ f.elements[n].value = state[n]; });
+    $('formErr').textContent = '';
+    update();
+  }
+  function chips(id, list, key, label){
+    var box = $(id); box.innerHTML = '';
+    list.forEach(function(v){
+      var c = el('button', {type:'button', 'class':'chip' + (state[key] === v ? ' on' : ''), 'aria-pressed': state[key] === v ? 'true' : 'false'}, label(v));
+      c.onclick = function(){ state[key] = v; box.querySelectorAll('.chip').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); }); c.classList.add('on'); c.setAttribute('aria-pressed','true'); update(); };
+      box.appendChild(c);
+    });
+  }
+  function totalDz(){ var p = P[state.brand]; return p.models.reduce(function(a,m){ return a + (state.qty[m]||0); }, 0); }
+  function update(){
+    var p = P[state.brand], tm = state.brand === 'taylormade', t = totalDz();
+    $('formErr').textContent = '';
+    $('qtyTotal').textContent = t + ' dozen' + (t ? ' (' + (t*12) + ' balls)' : '');
+    $('persFields').style.display = state.personalize ? '' : 'none';
+    // ball preview
+    var g = $('ballText'); g.innerHTML = '';
+    var lines = state.personalize ? state.lines.filter(function(x){ return x.trim(); }) : [];
+    var fc = FONT_CSS[tm ? (state.font || 'Helvetica Bold') : 'Helvetica Bold'];
+    var col = tm ? COLOUR_HEX[state.colour || 'Black'] : '#111111';
+    if (!lines.length){
+      g.innerHTML = '<text x="120" y="112" font-family="Montserrat,Arial" font-weight="700" font-size="22" fill="#111" letter-spacing="1">' + (tm ? 'TP5' : 'Pro V1') + '</text><text x="120" y="138" font-family="Montserrat,Arial" font-size="11" fill="#777" letter-spacing="2">' + (state.personalize ? 'YOUR TEXT HERE' : '') + '</text>';
+    } else {
+      var size = Math.round(21 * fc.s), gap = size * 1.25, y0 = 120 - (lines.length-1)*gap/2 + size*0.35;
+      lines.forEach(function(L, i){
+        var len = L.length, fs = len > 14 ? Math.max(11, Math.round(size * 14 / len)) : size;
+        var tx = document.createElementNS('http://www.w3.org/2000/svg','text');
+        tx.setAttribute('x','120'); tx.setAttribute('y', String(y0 + i*gap));
+        tx.setAttribute('font-family', fc.f); tx.setAttribute('font-weight', fc.w); tx.setAttribute('font-size', fs); tx.setAttribute('fill', col);
+        tx.textContent = L; g.appendChild(tx);
+      });
+    }
+    $('ballCap').textContent = tm ? ((state.font || 'Choose a font') + ' · ' + (state.colour || 'Choose a colour')) : 'Holiday Sale \u00b7 ' + money(p.pricePerDozen) + ' a dozen';
+    // summary
+    var html = '';
+    p.models.forEach(function(m){ if (state.qty[m]) html += '<div><span>' + m + '</span><span>' + state.qty[m] + ' dz</span></div>'; });
+    if (!t) html += '<div><span>No balls selected yet</span><span></span></div>';
+    if (p.pricePerDozen && t) html += '<div class="big"><span>Subtotal</span><span>' + money(t * p.pricePerDozen) + ' + HST</span></div>';
+    else if (tm && t) html += '<div class="big"><span>Personalization</span><span>Free</span></div>';
+    if (tm && t && t < p.minDozen) html += '<div style="color:var(--err)"><span>Minimum is ' + p.minDozen + ' dozen</span><span></span></div>';
+    $('sumBox').innerHTML = html;
+  }
+  function readForm(){
+    var f = $('orderForm');
+    ['name','member','email','phone','notes'].forEach(function(n){ state[n] = f.elements[n].value.trim(); });
+    document.querySelectorAll('[data-line]').forEach(function(i){ state.lines[+i.dataset.line] = i.value; });
+  }
+  function validate(){
+    var p = P[state.brand], t = totalDz();
+    if (t < p.minDozen) return p.minDozen > 1 ? 'Please choose at least ' + p.minDozen + ' dozen.' : 'Please choose at least 1 dozen.';
+    if (state.personalize && !state.lines.some(function(x){ return x.trim(); })) return 'Please enter at least one line of text.';
+    if (state.brand === 'taylormade' && !state.font) return 'Please choose a font.';
+    if (state.brand === 'taylormade' && !state.colour) return 'Please choose an ink colour.';
+    if (!state.name) return 'Please enter your name.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) return 'Please enter a valid email.';
+    if (!state.phone) return 'Please enter a phone number.';
+    if (!state.payment) return 'Please choose a payment option.';
+    return '';
+  }
+
+  /* ---------- Review ---------- */
+  function renderReview(){
+    var p = P[state.brand], t = totalDz(), rows = [];
+    rows.push(['Program', p.brand + ' ' + p.name]);
+    rows.push(['Balls', p.models.filter(function(m){ return state.qty[m]; }).map(function(m){ return state.qty[m] + ' dz ' + m; }).join('<br>')]);
+    rows.push(['Total', t + ' dozen (' + t*12 + ' balls)']);
+    if (state.personalize){
+      rows.push(['Text', state.lines.filter(function(x){ return x.trim(); }).map(esc).join('<br>')]);
+      if (state.brand === 'taylormade') rows.push(['Font / Ink', esc(state.font) + ', ' + esc(state.colour)]);
+    }
+    if (p.pricePerDozen) rows.push(['Subtotal', money(t * p.pricePerDozen) + ' plus HST']);
+    else rows.push(['Pricing', 'Standard 2026 pricing, personalization free']);
+    rows.push(['Name', esc(state.name) + (state.member ? ' (Member ' + esc(state.member) + ')' : '')]);
+    rows.push(['Contact', esc(state.email) + '<br>' + esc(state.phone)]);
+    rows.push(['Payment', esc(state.payment)]);
+    rows.push(['Pickup', 'At ' + p.pickup + ', our team will let you know when it is ready']);
+    if (state.notes) rows.push(['Notes', esc(state.notes)]);
+    $('reviewList').innerHTML = rows.map(function(r){ return '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>'; }).join('');
+    $('submitErr').textContent = '';
+  }
+  function submit(){
+    var btn = $('submitBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending';
+    var p = P[state.brand];
+    var payload = {brand:state.brand, qty:state.qty, personalize:state.personalize, lines:state.lines, font:state.font, colour:state.colour,
+      payment:state.payment, name:state.name, member:state.member, email:state.email, phone:state.phone, notes:state.notes};
+    function ok(res){
+      btn.disabled = false; btn.textContent = 'Submit Order';
+      $('doneNum').textContent = res.orderNo;
+      $('doneMsg').textContent = 'Thanks, ' + state.name.split(' ')[0] + '. Your ' + p.brand + ' order is in. ' + (state.brand === 'titleist' ? 'We will pull your balls from inventory and leave them at ' + p.pickup + ' for you to pick up.' : 'Our team will confirm the details and send your personalization order to TaylorMade.') + ' We will let you know when it is ready.';
+      go('done');
+    }
+    function fail(e){ btn.disabled = false; btn.textContent = 'Submit Order'; $('submitErr').textContent = (e && e.message) ? e.message : 'Something went wrong. Please try again or call the Pro Shop.'; }
+    if (ENDPOINT && !CFG.preview){
+      payload.requestId = state.reqId || (state.reqId = newId());
+      payload.website = $('hpWebsite').value;
+      post(payload, 3).then(function(res){
+        if (res.ok) ok(res); else fail(new Error(res.message || ''));
+      }, function(){ fail(new Error('We could not reach the order sheet. Please check your connection and try again, or call the Pro Shop at 905-640-3633.')); });
+    } else {
+      setTimeout(function(){ ok({orderNo: p.prefix + '-1001'}); }, 700);
+    }
+  }
+
+  function newId(){ try { return crypto.randomUUID(); } catch(e){ return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2); } }
+  function post(body, tries){
+    var ctl = typeof AbortController !== 'undefined' ? new AbortController() : null, timer = ctl && setTimeout(function(){ ctl.abort(); }, 25000);
+    return fetch(ENDPOINT, {method:'POST', body:JSON.stringify(body), signal: ctl ? ctl.signal : undefined})
+      .then(function(r){ return r.json(); })
+      .then(function(res){ clearTimeout(timer); if (!res || typeof res.ok !== 'boolean') throw new Error('bad reply'); return res; })
+      .catch(function(err){ clearTimeout(timer); if (tries <= 1) throw err; return new Promise(function(r){ setTimeout(r, 1200); }).then(function(){ return post(body, tries - 1); }); });
+  }
+
+  /* ---------- Navigation ---------- */
+  var ORDER = {landing:1, brand:2, details:3, review:4, done:5};
+  function go(v){
+    document.querySelectorAll('.view').forEach(function(s){ s.classList.remove('on'); });
+    $('v-' + v).classList.add('on');
+    var n = ORDER[v];
+    document.querySelectorAll('#steps span').forEach(function(s){ var k = +s.dataset.s; s.className = k === n ? 'on' : (k < n ? 'past' : ''); });
+    $('steps').style.display = v === 'done' ? 'none' : '';
+    window.scrollTo(0, 0);
+  }
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.onclick = function(){ if (b.dataset.go === 'brand') renderBrands(); if ($('v-details').classList.contains('on')) readForm(); go(b.dataset.go); }; });
+  $('startBtn').onclick = function(){ renderBrands(); go('brand'); };
+  $('persToggle').onchange = function(){ state.personalize = this.checked; update(); };
+  document.querySelectorAll('[data-line]').forEach(function(i){ i.oninput = function(){ state.lines[+i.dataset.line] = i.value; update(); }; });
+  $('orderForm').onsubmit = function(e){ e.preventDefault(); readForm(); var m = validate(); $('formErr').textContent = m; if (m) return; renderReview(); go('review'); };
+  $('submitBtn').onclick = submit;
+  $('againBtn').onclick = function(){ var keep = {name:state.name, member:state.member, email:state.email, phone:state.phone, payment:state.payment}; state = fresh(); for (var x in keep) state[x] = keep[x]; go('landing'); };
+
+  if (CFG.preview) $('previewBar').hidden = false;
+  renderPrograms();
+  go('landing');
+  if (ENDPOINT) fetch(ENDPOINT + '?state=1').then(function(r){ return r.json(); }).then(function(s){
+    if (!s || !s.programs) return;
+    ['titleist','taylormade'].forEach(function(k){ if (s.programs[k]) P[k] = s.programs[k]; });
+    if (s.payment && s.payment.length) CFG.payment = s.payment;
+    if (s.today) TODAY = s.today;
+    renderPrograms();
+    if ($('v-brand').classList.contains('on')) renderBrands();
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
